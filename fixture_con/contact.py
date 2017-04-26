@@ -1,22 +1,10 @@
-from selenium.webdriver.firefox.webdriver import WebDriver
+class ContactHelper:
 
+    def __init__(self, app):
+        self.app=app
 
-class Application:
-
-    def __init__(self):
-        self.wd = WebDriver()
-        self.wd.implicitly_wait(60)
-
-    def logout(self):
-        wd = self.wd
-        wd.find_element_by_link_text("Logout").click()
-
-    def return_home_page(self):
-        wd = self.wd
-        wd.find_element_by_link_text("home page").click()
-
-    def create_contact(self, contact):
-        wd = self.wd
+    def create(self, contact):
+        wd = self.app.wd
         # init contact creation
         wd.find_element_by_link_text("add new").click()
         # fill form contact
@@ -93,21 +81,10 @@ class Application:
         wd.find_element_by_name("submit").click()
         self.return_home_page()
 
-    def login(self, username, password):
-        wd = self.wd
-        self.open_home_page()
-        wd.find_element_by_name("user").click()
-        wd.find_element_by_name("user").clear()
-        wd.find_element_by_name("user").send_keys(username)
-        wd.find_element_by_id("LoginForm").click()
-        wd.find_element_by_name("pass").click()
-        wd.find_element_by_name("pass").clear()
-        wd.find_element_by_name("pass").send_keys(password)
-        wd.find_element_by_xpath("//form[@id='LoginForm']/input[3]").click()
+    def return_home_page(self):
+        wd = self.app.wd
+        wd.find_element_by_link_text("home page").click()
 
-    def open_home_page(self):
-        wd = self.wd
-        wd.get("http://localhost/addressbook/group.php")
-
-    def destroy(self):
-        self.wd.quit()
+    def return_home_page(self):
+        wd = self.app.wd
+        wd.find_element_by_link_text("home page").click()
