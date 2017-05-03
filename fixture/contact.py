@@ -98,9 +98,8 @@ class ContactHelper:
         #select first contact
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("//form[@name='MainForm']//img[@title='Edit']").click()
-        wd.find_element_by_name("firstname").click()
-        wd.find_element_by_name("firstname").clear()
-        wd.find_element_by_name("firstname").send_keys("wef")
+
+
         wd.find_element_by_name("update").click()
         self.return_home_page()
 

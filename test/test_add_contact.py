@@ -15,6 +15,7 @@ def test_add_contact(app):
                                address2="street borovaya", phone2="44-532",
                                notes="primer"))
 
+
 def test_add_empty_contact(app):
     app.contact.create(Contact(firstname="", middlename="", lastname="", nickname="", title="",
                                company="", address="", home="", mobile="",
