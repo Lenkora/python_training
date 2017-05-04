@@ -24,8 +24,8 @@ class GroupHelper:
         self.change_field_value("group_footer", group.footer)
 
     def change_field_value(self, field_name, text):
-        wd = self.app.wd
         if text is not None:
+            wd = self.app.wd
             wd.find_element_by_name(field_name).click()
             wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(text)
@@ -42,18 +42,16 @@ class GroupHelper:
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
 
-    def modify_first_group(self, new_group_date):
+    def editing_first_group(self, new_group_data):
         wd = self.app.wd
         self.open_groups_page()
         self.select_first_group()
         #open modification form
-        #wd.find_element_by_name("edit").click()
-        wd.find_element_by_xpath("//input[@value='Edit group']").click()
-        # fill group form
-        self.fill_group_form(new_group_date)
-        #submit
-        wd.find_element_by_name("update").click()
-        #wd.find_element_by_xpath("//input[@value='Update']").click()
+        #wd.find_element_by_xpath("//input[@value='Edit group']").click()
+        wd.find_element_by_name("edit").click()
+        self.fill_group_form(new_group_data)
+        wd.find_element_by_xpath("//input[@value='Update']").click()
+        #wd.find_element_by_name("update").click()
         self.return_to_groups_page()
 
     def open_groups_page(self):

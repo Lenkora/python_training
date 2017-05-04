@@ -16,11 +16,11 @@ def app(request):
     fixture.session.ensure_login(username="admin", password="secret")
     return fixture
 
+
 @pytest.fixture(scope="session", autouse=True)
-#scope="session" - выполнение только один раз
 def stop(request):
     def fin():
-        fixture.session.logout()
+        fixture.session.ensure_logout()
         fixture.destroy()
     request.addfinalizer(fin)
     return fixture
