@@ -1,3 +1,4 @@
+from selenium.webdriver.support.ui import Select
 
 class ContactHelper:
 
@@ -42,11 +43,14 @@ class ContactHelper:
 
 
 
-    def change_birthday_date(self, date_value, field_name):
+    def change_birthday_date(self, field_name, date_value):
         wd = self.app.wd
+        select = Select(wd.find_element_by_name(field_name))
+        select.select_by_visible_text(date_value)
         if date_value is not None:
             if not wd.find_element_by_xpath(field_name).is_selected():
                 wd.find_element_by_xpath(field_name).click()
+
 
     def change_field_value(self, field_name, text):
         wd = self.app.wd
