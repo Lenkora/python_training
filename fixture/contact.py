@@ -31,12 +31,12 @@ class ContactHelper:
         self.change_field_value("email2", contact.email2)
         self.change_field_value("email3", contact.email3)
         self.change_field_value("homepage", contact.homepage)
-        self.change_birthday_date("day1", contact.day1)
+        self.change_birthday_date("aday", contact.aday)
         self.change_birthday_date("month1", contact.month1)
-        self.change_field_value("byear", contact.byear)
-        self.change_birthday_date("day2", contact.day2)
-        self.change_birthday_date("month2", contact.month2)
         self.change_field_value("ayear", contact.ayear)
+        self.change_birthday_date("bday", contact.bday)
+        self.change_birthday_date("month2", contact.month2)
+        self.change_field_value("byear", contact.byear)
         self.change_field_value("address2", contact.address2)
         self.change_field_value("phone2", contact.phone2)
         self.change_field_value("notes", contact.notes)
@@ -45,11 +45,12 @@ class ContactHelper:
 
     def change_birthday_date(self, field_name, date_value):
         wd = self.app.wd
-        select = Select(wd.find_element_by_name(field_name))
-        select.select_by_visible_text(date_value)
         if date_value is not None:
-            if not wd.find_element_by_xpath(field_name).is_selected():
-                wd.find_element_by_xpath(field_name).click()
+            select = Select(wd.find_element_by_name(field_name))
+            select.select_by_visible_text(date_value)
+            #БЫЛО - упрощение кода, чтобы дату воспринимало, как число, а не просто имя
+            #if not wd.find_element_by_xpath(field_name).is_selected():
+                #wd.find_element_by_xpath(field_name).click()
 
 
     def change_field_value(self, field_name, text):
