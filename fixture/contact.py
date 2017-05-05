@@ -63,16 +63,19 @@ class ContactHelper:
 
     def delete_first_contact(self):
         wd = self.app.wd
-        # init contact creation
-        wd.find_element_by_link_text("home").click()
+        self.init_home_creation()
         self.select_first_contact()
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to_alert().accept()
 
+    def init_home_creation(self):
+        wd = self.app.wd
+        if not (wd.current_url.endswith("/addressbook/")):
+            wd.find_element_by_link_text("home").click()
+
     def editing_first_contact(self, new_contact_data):
         wd = self.app.wd
-        # init contact creation
-        wd.find_element_by_link_text("home").click()
+        self.init_home_creation()
         self.select_first_contact()
         #open edit form
         wd.find_element_by_xpath("//form[@name='MainForm']//img[@title='Edit']").click()
