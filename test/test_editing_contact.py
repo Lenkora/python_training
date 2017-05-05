@@ -7,4 +7,3 @@ def test_editing_first_name(app):
 def test_editing_first_day2(app):
     #сменила вторую дату на 11
     app.contact.editing_first_contact(Contact(aday="11", amonth="November", bday="21", bmonth="April"))
-
