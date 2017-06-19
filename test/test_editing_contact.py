@@ -1,6 +1,8 @@
 from model.contact import Contact
 
 def test_editing_first_name(app):
+    if app.contact.count() == 0:
+        app.contact.create(Contact(firstname="проверка"))
     old_contact = app.contact.get_contact_list()
     contact = Contact(firstname="NEW firstname")
     contact.id = old_contact[0].id
