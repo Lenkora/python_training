@@ -1,3 +1,5 @@
+from model.group import Group
+
 class GroupHelper:
 
     def __init__(self, app):
@@ -56,4 +58,25 @@ class GroupHelper:
 
     def open_groups_page(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("groups").click()
+        if not (wd.current_url.endswith("/group.php") and len(wd.find_elements_by_name("new")) > 0):
+            wd.find_element_by_link_text("groups").click()
+
+    def count(self):
+        wd = self.app.wd
+        self.open_groups_page()
+        return len(wd.find_elements_by_name("selected[]"))
+
+
+#делаем поверки для тестов, сравниваем список групп до того, как добавили группу или удалили
+    def get_group_list(self):
+        wd = self.app.wd
+        self.open_groups_page()
+#даллее по этим двум свойствам,
+# нужно построить объект типа group и добавить, в какой-то список, и после того, как выполнили это действие
+#  который в конце будет возрващаться
+        groups = []
+        for element in wd.find_elements_by_css_selector("span.group"):
+            text = element.text
+            id = element.find_element_by_name("selected[]").get_attribute("value")
+            groups.append(Group(name=text, id=id))
+        return groups
