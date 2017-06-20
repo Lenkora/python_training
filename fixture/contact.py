@@ -14,6 +14,7 @@ class ContactHelper:
         # submit contact creation
         wd.find_element_by_name("submit").click()
         self.return_home_page()
+        self.contact_cache = None
 
     def fill_contact_form(self, contact):
         self.change_field_value("firstname", contact.firstname)
@@ -59,32 +60,42 @@ class ContactHelper:
             wd.find_element_by_name(field_name).send_keys(text)
 
     def delete_first_contact(self):
+        self.delete_contact_by_index(0)
+
+    def delete_contact_by_index(self, index):
         wd = self.app.wd
         self.init_home_creation()
-        self.select_first_contact()
+        self.select_contact_by_index(index)
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to_alert().accept()
+        self.contact_cache = None
 
     def init_home_creation(self):
         wd = self.app.wd
         if not (wd.current_url.endswith("/addressbook/")):
             wd.find_element_by_link_text("home").click()
 
-    def editing_first_contact(self, new_contact_data):
+    def editing_first_contact(self):
+        self.editing_contact_by_index(0)
+        self.contact_cache = None
+
+    def editing_contact_by_index(self, index,  new_contact_data):
         wd = self.app.wd
         self.init_home_creation()
-        self.select_first_contact()
-        #open edit form
+        self.select_contact_by_index(index)
         wd.find_element_by_xpath("//form[@name='MainForm']//img[@title='Edit']").click()
-        #fill contact form
         self.fill_contact_form(new_contact_data)
-        #submit edit
         wd.find_element_by_name("update").click()
         self.return_home_page()
+        self.contact_cache = None
 
     def select_first_contact(self):
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
+
+    def select_contact_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_name("selected[]")[index].click()
 
     def return_home_page(self):
         wd = self.app.wd
@@ -95,15 +106,18 @@ class ContactHelper:
         self.init_home_creation()
         return len(wd.find_elements_by_name("selected[]"))
 
+    contact_cache = None
+
     def get_contact_list(self):
-        wd = self.app.wd
-        self.init_home_creation()
-        contact = []
-#удобнее всего выбрать нужную строку, потом разбить её на ячейки
-        for row in wd.find_elements_by_name("entry"):
-            cells = row.find_elements_by_tag_name("td")
-            last_name = cells[1].text
-            first_name = cells[2].text
-            id = row.find_element_by_name("selected[]").get_attribute("value")
-            contact.append(Contact(lastname=last_name, firstname=first_name, id=id))
-        return contact
+        if self.contact_cache is None:
+            wd = self.app.wd
+            self.init_home_creation()
+            self.contact_cache = []
+    #удобнее всего выбрать нужную строку, потом разбить её на ячейки
+            for row in wd.find_elements_by_name("entry"):
+                cells = row.find_elements_by_tag_name("td")
+                last_name = cells[1].text
+                first_name = cells[2].text
+                id = row.find_element_by_name("selected[]").get_attribute("value")
+                self.contact_cache.append(Contact(firstname=first_name, lastname=last_name, id=id))
+        return list(self.contact_cache)
