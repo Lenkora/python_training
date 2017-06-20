@@ -75,7 +75,7 @@ class ContactHelper:
         if not (wd.current_url.endswith("/addressbook/")):
             wd.find_element_by_link_text("home").click()
 
-    def editing_first_contact(self):
+    def editing_first_contact(self, new_contact_data):
         self.editing_contact_by_index(0)
         self.contact_cache = None
 
@@ -83,7 +83,7 @@ class ContactHelper:
         wd = self.app.wd
         self.init_home_creation()
         self.select_contact_by_index(index)
-        wd.find_element_by_xpath("//form[@name='MainForm']//img[@title='Edit']").click()
+        wd.find_elements_by_xpath("//form[@name='MainForm']//img[@title='Edit']")[index].click()
         self.fill_contact_form(new_contact_data)
         wd.find_element_by_name("update").click()
         self.return_home_page()
@@ -116,8 +116,8 @@ class ContactHelper:
     #удобнее всего выбрать нужную строку, потом разбить её на ячейки
             for row in wd.find_elements_by_name("entry"):
                 cells = row.find_elements_by_tag_name("td")
-                last_name = cells[1].text
                 first_name = cells[2].text
-                id = row.find_element_by_name("selected[]").get_attribute("value")
+                last_name = cells[1].text
+                id = cells[0].find_element_by_name("selected[]").get_attribute("value")
                 self.contact_cache.append(Contact(firstname=first_name, lastname=last_name, id=id))
         return list(self.contact_cache)
