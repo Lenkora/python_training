@@ -35,7 +35,9 @@ class Contact:
         self.all_phones=all_phones
 #как будет выглядить объект при выводе на консоль
     def __repr__(self):
-        return "%s:%s" % (self.id, self.firstname)
+        return "%s:%s;%s;%s;%s;%s;%s;%s;%s;%s;%s" % (self.id, self.firstname, self.lastname , self.nickname, self.home,
+                                               self.mobile, self.work, self.email,self.email2,self.email3,
+                                                     self.ayear)
 #стандартна функция, которая принимает в качестве второго параметра объект, с которым мы должны сравнить текущий объект self
     def __eq__(self, other):
         return (self.id is None or other.id is None or self.id == other.id) and self.firstname == other.firstname

@@ -8,7 +8,7 @@ class Group:
         self.id =id
 #строковое зпредставление, а не вот такое: 0x02BDAD50
     def __repr__(self):
-        return "%s:%s" % (self.id, self.name)
+        return "%s:%s;%s;%s" % (self.id, self.name, self.header,self.footer)
 
 #сравнение по смыслу, а не по физическому расположению
     def __eq__(self, other):
