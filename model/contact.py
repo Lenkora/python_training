@@ -5,7 +5,7 @@ class Contact:
                  company = None, address = None, home = None, mobile = None, work = None, fax = None,
                  email = None, email2 = None, email3 = None, homepage = None, bday = None, bmonth = None,
                  byear = None, aday = None, amonth = None, ayear = None,
-                 address2 = None, phone2 = None, notes = None, id = None):
+                 address2 = None, phone2 = None, notes = None, id = None, all_emails=None, all_phones=None ):
         self.firstname=firstname
         self.middlename=middlename
         self.lastname=lastname
@@ -31,6 +31,8 @@ class Contact:
         self.phone2=phone2
         self.notes=notes
         self.id=id
+        self.all_emails=all_emails
+        self.all_phones=all_phones
 #как будет выглядить объект при выводе на консоль
     def __repr__(self):
         return "%s:%s" % (self.id, self.firstname)
@@ -43,4 +45,3 @@ class Contact:
             return int(self.id)
         else:
             return maxsize
-
