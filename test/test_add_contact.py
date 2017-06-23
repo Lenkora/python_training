@@ -1,12 +1,7 @@
-# -*- coding: utf-8 -*-
+from model.contact import Contact
 
-from model.contact import *
-import pytest
-
-from data.contacts import contant as testcontact
-
-@pytest.mark.parametrize("contact", testcontact, ids=[repr(x) for x in testcontact])
-def test_add_contact(app, contact):
+def test_add_contact(app, json_contacts):
+    contact =json_contacts
     old_contact = app.contact.get_contact_list()
     app.contact.create(contact)
 #проверка, что old_contacts больше на единицу списка: new_contacts
